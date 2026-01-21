@@ -1,18 +1,34 @@
 name: sysfoo-ci
-on: [push]
+on:
+  push:
+    branches:
+      - 'master'
 jobs:
   sysfoo-ci-jb:
     runs-on: ubuntu-latest
     steps:
       - name: Hello Swiss
         run: echo "Welcome to sysfoo"
+        
       - name: Code checkout
         uses: actions/checkout@v6
+        
       - name: Test
         run: mvn test
+        
       - name: Clean Package
         run: mvn clean
+        
       - name: Package
         run: mvn package
+        
       - name: View file
         run: ls -lrt target
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sysfoo
+          path: traget/**.war
+      
+
